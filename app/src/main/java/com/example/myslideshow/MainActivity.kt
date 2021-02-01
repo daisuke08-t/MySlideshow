@@ -1,11 +1,14 @@
 package com.example.myslideshow
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.myslideshow.databinding.ActivityMainBinding
+import kotlin.concurrent.timer
 
 
 class MainActivity : AppCompatActivity() {
@@ -32,5 +35,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.pager.adapter = MyAdapter(this)
+
+        val handler = Handler(Looper.getMainLooper())
+        timer(period = 5000){
+            handler.post{
+                binding.apply {
+                    pager.currentItem = (pager.currentItem + 1) % 10
+                }
+            }
+        }
     }
 }
